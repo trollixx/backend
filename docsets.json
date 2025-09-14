@@ -788,6 +788,14 @@
             "isJavaScriptEnabled": true
         }
     },
+    "Ruby_on_Rails_8": {
+        "title": "Ruby on Rails 8",
+        "iconName": "rails",
+        "extra": {
+            "keywords": ["ror8", "ror"],
+            "isJavaScriptEnabled": true
+        }
+    },
     "RubyMotion": {
         "title": "RubyMotion",
         "iconName": "rubymotion",

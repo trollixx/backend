@@ -250,29 +250,8 @@
             "isJavaScriptEnabled": true
         }
     },
-    "Drupal_7": {
-        "title": "Drupal 7",
-        "iconName": "drupal",
-        "extra": {
-            "isJavaScriptEnabled": true
-        }
-    },
-    "Drupal_8": {
-        "title": "Drupal 8",
-        "iconName": "drupal",
-        "extra": {
-            "isJavaScriptEnabled": true
-        }
-    },
-    "Drupal_9": {
-        "title": "Drupal 9",
-        "iconName": "drupal",
-        "extra": {
-            "isJavaScriptEnabled": true
-        }
-    },
-    "Drupal_10": {
-        "title": "Drupal 10",
+    "Drupal": {
+        "title": "Drupal",
         "iconName": "drupal",
         "extra": {
             "isJavaScriptEnabled": true

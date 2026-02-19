@@ -12,14 +12,12 @@
         "prettier:fix": "prettier --write ."
     },
     "devDependencies": {
-        "@types/node": "^22.5.2",
-        "@types/react": "18.3.5",
-        "@vercel/edge": "^1.1.2",
-        "eslint": "^9.26.0",
-        "eslint-config-next": "^14.2.7",
-        "next": "^16.1.5",
-        "prettier": "^3.3.3",
-        "react": "^18.3.1",
-        "typescript": "^5.5.4"
+        "@types/node": "^25.3.0",
+        "@types/react": "19.2.14",
+        "@vercel/functions": "^3.4.2",
+        "next": "^16.1.6",
+        "prettier": "^3.8.1",
+        "react": "^19.2.4",
+        "typescript": "^5.9.3"
     }
 }

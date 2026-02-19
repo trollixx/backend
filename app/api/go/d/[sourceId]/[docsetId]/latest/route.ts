@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { geolocation } from "@vercel/edge";
+import { geolocation } from "@vercel/functions";
 
 import docsets from "@/docsets.json";
 

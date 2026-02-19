@@ -109,13 +109,15 @@ const regionMap: RegionMap = {
     },
 };
 
-export function GET(request: NextRequest, { params }: { params: { sourceId: string; docsetId: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ sourceId: string; docsetId: string }> }) {
+    const resolvedParams = await params;
+
     // Hacky workaround for Next.js/Vercel bug reported in https://github.com/zealdocs/zeal/issues/1537.
     if (request.nextUrl.pathname.endsWith("/d/com.kapeli/C++/latest")) {
-        params.docsetId = "C++";
+        resolvedParams.docsetId = "C++";
     }
 
-    const { sourceId, docsetId } = params;
+    const { sourceId, docsetId } = resolvedParams;
     if (sourceId != "com.kapeli" || !Object.hasOwn(docsets, docsetId)) {
         console.error("Unknown sourceId or docsetId:", sourceId, docsetId);
         return new NextResponse("Not found", { status: 404 });

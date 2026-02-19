@@ -21,10 +21,11 @@ const linkMap: LinkMap = {
     dash: "https://kapeli.com/dash",
 };
 
-export function GET(request: NextRequest, { params }: { params: { linkId: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ linkId: string }> }) {
     // const linkId = request.nextUrl.searchParams.get("linkId")!;
+    const { linkId } = await params;
 
-    const url = linkMap[params.linkId];
+    const url = linkMap[linkId];
     if (url === undefined) {
         return new NextResponse("Not found", { status: 404 });
     }

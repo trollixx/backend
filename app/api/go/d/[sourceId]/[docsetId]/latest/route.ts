@@ -109,7 +109,10 @@ const regionMap: RegionMap = {
     },
 };
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ sourceId: string; docsetId: string }> }) {
+export async function GET(
+    request: NextRequest,
+    { params }: { params: Promise<{ sourceId: string; docsetId: string }> },
+) {
     const resolvedParams = await params;
 
     // Hacky workaround for Next.js/Vercel bug reported in https://github.com/zealdocs/zeal/issues/1537.

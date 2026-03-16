@@ -1,22 +1,5 @@
-import { beforeAll, afterAll, describe, it, expect } from "bun:test";
-import { existsSync, mkdirSync, writeFileSync, unlinkSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-import { dirname } from "node:path";
+import { describe, it, expect } from "bun:test";
 import app from "./index";
-
-const docsetsPath = fileURLToPath(new URL("../public/_api/v1/docsets.json", import.meta.url));
-const docsetsCreatedByTest = !existsSync(docsetsPath);
-
-beforeAll(() => {
-    if (docsetsCreatedByTest) {
-        mkdirSync(dirname(docsetsPath), { recursive: true });
-        writeFileSync(docsetsPath, "[]\n");
-    }
-});
-
-afterAll(() => {
-    if (docsetsCreatedByTest) unlinkSync(docsetsPath);
-});
 
 describe("GET /", () => {
     it("redirects to zealdocs.org", async () => {
@@ -36,22 +19,6 @@ describe("GET /l/:linkId", () => {
     it("returns 404 for unknown link", async () => {
         const res = await app.handle(new Request("http://localhost/l/unknown"));
         expect(res.status).toBe(404);
-    });
-});
-
-describe("GET /v1/releases", () => {
-    it("returns 200 JSON", async () => {
-        const res = await app.handle(new Request("http://localhost/v1/releases"));
-        expect(res.status).toBe(200);
-        expect(res.headers.get("content-type")).toContain("application/json");
-    });
-});
-
-describe("GET /v1/docsets", () => {
-    it("returns 200 JSON", async () => {
-        const res = await app.handle(new Request("http://localhost/v1/docsets"));
-        expect(res.status).toBe(200);
-        expect(res.headers.get("content-type")).toContain("application/json");
     });
 });
 

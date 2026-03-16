@@ -5,16 +5,8 @@ import { getMirror } from "./geo";
 import { linkMap } from "./links";
 import docsets from "../docsets.json";
 
-async function serveJsonFile(path: string): Promise<Response> {
-    const file = Bun.file(new URL(path, import.meta.url));
-    if (!(await file.exists())) return new Response("Not found", { status: 404 });
-    return new Response(file);
-}
-
 const app = new Elysia()
     .get("/", ({ redirect }) => redirect("https://zealdocs.org", 302))
-    .get("/v1/releases", () => serveJsonFile("../public/_api/v1/releases.json"))
-    .get("/v1/docsets", () => serveJsonFile("../public/_api/v1/docsets.json"))
     .get("/l/:linkId", ({ params: { linkId }, redirect, set }) => {
         const url = linkMap[linkId];
         if (!url) {

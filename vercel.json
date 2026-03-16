@@ -1,1 +1,4 @@
-{ "bunVersion": "1.x" }
+{
+    "bunVersion": "1.x",
+    "framework": null
+}

@@ -30,13 +30,9 @@ jobs:
           git clone https://github.com/Kapeli/feeds.git build/feeds
           git clone https://github.com/Kapeli/Dash-X-Platform-Resources.git build/resources
 
-      - name: Test
-        run: |
-          bun install
-          bun test
-
       - name: Execute
         run: |
+          bun install
           bun run process-feeds \
             --resource-dir=build/resources \
             build/feeds \

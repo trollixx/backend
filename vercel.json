@@ -1,5 +1,4 @@
 {
     "bunVersion": "1.x",
-    "framework": "elysia",
-    "rewrites": [{ "source": "/v1/:file(releases|docsets)", "destination": "/_api/v1/:file.json" }]
+    "framework": "elysia"
 }

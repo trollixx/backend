@@ -20,5 +20,3 @@ next-env.d.ts
 # Resources
 build/*
 
-# Generated files
-public/_api/v1/docsets.json

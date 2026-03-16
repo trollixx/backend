@@ -1,6 +1,22 @@
 import { describe, it, expect } from "bun:test";
 import app from "./index";
 
+describe("GET /v1/releases", () => {
+    it("returns 200 JSON", async () => {
+        const res = await app.handle(new Request("http://localhost/v1/releases"));
+        expect(res.status).toBe(200);
+        expect(res.headers.get("content-type")).toContain("application/json");
+    });
+});
+
+describe("GET /v1/docsets", () => {
+    it("returns 200 JSON", async () => {
+        const res = await app.handle(new Request("http://localhost/v1/docsets"));
+        expect(res.status).toBe(200);
+        expect(res.headers.get("content-type")).toContain("application/json");
+    });
+});
+
 describe("GET /", () => {
     it("redirects to zealdocs.org", async () => {
         const res = await app.handle(new Request("http://localhost/"));

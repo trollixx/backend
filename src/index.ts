@@ -4,9 +4,13 @@ import { geolocation } from "@vercel/functions";
 import { getMirror } from "./geo";
 import { linkMap } from "./links";
 import docsets from "../docsets.json";
+import releasesData from "../public/_api/v1/releases.json";
+import docsetsData from "../public/_api/v1/docsets.json";
 
 const app = new Elysia()
     .get("/", ({ redirect }) => redirect("https://zealdocs.org", 302))
+    .get("/v1/releases", () => Response.json(releasesData, { headers: { "Cache-Control": "public, s-maxage=3600" } }))
+    .get("/v1/docsets", () => Response.json(docsetsData, { headers: { "Cache-Control": "public, s-maxage=3600" } }))
     .get("/l/:linkId", ({ params: { linkId }, redirect, set }) => {
         const url = linkMap[linkId];
         if (!url) {

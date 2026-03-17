@@ -18,6 +18,13 @@
             "isJavaScriptEnabled": true
         }
     },
+    "Android_(Kotlin)": {
+        "title": "Android (Kotlin)",
+        "iconName": "android",
+        "extra": {
+            "isJavaScriptEnabled": true
+        }
+    },
     "Angular": {
         "title": "Angular",
         "iconName": "angular",

@@ -230,10 +230,6 @@
         "title": "D3JS",
         "iconName": "d3"
     },
-    "DOM": {
-        "title": "DOM",
-        "iconName": "dom"
-    },
     "Dart": {
         "title": "Dart",
         "iconName": "dartlang"
@@ -409,13 +405,6 @@
     "Jasmine": {
         "title": "Jasmine",
         "iconName": "jasmine"
-    },
-    "JavaFX": {
-        "title": "JavaFX",
-        "iconName": "javafx",
-        "extra": {
-            "isJavaScriptEnabled": true
-        }
     },
     "JavaScript": {
         "title": "JavaScript",

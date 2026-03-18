@@ -31,7 +31,8 @@ export function createApp(catalog: CatalogEntry[] = docsetsData as CatalogEntry[
         .get("/d/:sourceId/:docsetId/:version", ({ params, request, redirect, set }) => {
             const { sourceId, docsetId, version } = params;
 
-            if (sourceId !== "com.kapeli" || !Object.hasOwn(docsets, docsetId)) {
+            const manifest = docsets as Record<string, { source?: string }>;
+            if (sourceId !== "com.kapeli" || !Object.hasOwn(manifest, docsetId)) {
                 set.status = 404;
                 return "Not found";
             }
@@ -39,10 +40,11 @@ export function createApp(catalog: CatalogEntry[] = docsetsData as CatalogEntry[
             const { latitude, longitude } = geolocation(request);
             const mirror = getMirror(latitude, longitude);
 
+            const feedName = manifest[docsetId].source ?? docsetId;
             const resolvedVersion = version === "latest" ? catalogFirstVersion.get(docsetId) : version;
             const url = resolvedVersion
-                ? `https://${mirror}/feeds/zzz/versions/${docsetId}/${resolvedVersion}/${docsetId}.tgz`
-                : `https://${mirror}/feeds/${docsetId}.tgz`;
+                ? `https://${mirror}/feeds/zzz/versions/${feedName}/${resolvedVersion}/${feedName}.tgz`
+                : `https://${mirror}/feeds/${feedName}.tgz`;
             return redirect(url, 302);
         });
 }

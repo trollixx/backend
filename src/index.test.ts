@@ -50,6 +50,12 @@ describe("GET /d/:sourceId/:docsetId/:version", () => {
         expect(res.headers.get("location")).toMatch(/\.kapeli\.com\/feeds\/zzz\/versions\/Akka\/2\.10\.16\/Akka\.tgz$/);
     });
 
+    it("uses source feed name in URL for split docsets", async () => {
+        const res = await app.handle(new Request("http://localhost/d/com.kapeli/Python_3/latest"));
+        expect(res.status).toBe(302);
+        expect(res.headers.get("location")).toMatch(/\.kapeli\.com\/feeds\/zzz\/versions\/Python\/3\.14\.3\/Python\.tgz$/);
+    });
+
     it("falls back to unversioned URL when not in catalog", async () => {
         const res = await app.handle(new Request("http://localhost/d/com.kapeli/C++/latest"));
         expect(res.status).toBe(302);

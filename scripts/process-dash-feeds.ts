@@ -27,6 +27,7 @@ export function readIcon(filename: string): string {
         const length = data.readUInt32BE(offset);
         const type = data.subarray(offset + 4, offset + 8).toString("ascii");
         const chunkTotal = 12 + length;
+        if (offset + chunkTotal > data.length) break;
 
         if (PNG_CHUNK_WHITELIST.has(type)) {
             chunks.push(data.subarray(offset, offset + chunkTotal));

@@ -55,7 +55,7 @@ describe("GET /d/:sourceId/:docsetId/latest", () => {
         expect(res.status).toBe(404);
     });
 
-    it("handles C++ docset workaround", async () => {
+    it("handles C++ docset", async () => {
         const res = await app.handle(new Request("http://localhost/d/com.kapeli/C++/latest"));
         expect(res.status).toBe(302);
         expect(res.headers.get("location")).toMatch(/\.kapeli\.com\/feeds\/C\+\+\.tgz$/);

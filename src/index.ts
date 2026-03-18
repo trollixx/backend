@@ -19,13 +19,8 @@ const app = new Elysia()
         }
         return redirect(url, 302);
     })
-    .get("/d/:sourceId/:docsetId/latest", ({ params, request, redirect, set }) => {
-        let { sourceId, docsetId } = params;
-
-        // Workaround for C++ docset URL bug (https://github.com/zealdocs/zeal/issues/1537).
-        if (new URL(request.url).pathname.endsWith("/d/com.kapeli/C++/latest")) {
-            docsetId = "C++";
-        }
+    .get("/d/:sourceId/:docsetId/:version", ({ params, request, redirect, set }) => {
+        const { sourceId, docsetId, version } = params;
 
         if (sourceId !== "com.kapeli" || !Object.hasOwn(docsets, docsetId)) {
             set.status = 404;

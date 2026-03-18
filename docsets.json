@@ -995,14 +995,6 @@
     "Ruby": {
         "title": "Ruby",
         "iconName": "ruby",
-        "extra": {
-            "isJavaScriptEnabled": true
-        }
-    },
-    "Ruby_1": {
-        "title": "Ruby 1",
-        "iconName": "ruby",
-        "source": "Ruby",
         "versionPrefix": "1.",
         "extra": {
             "keywords": ["ruby1", "ruby"],

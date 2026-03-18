@@ -47,8 +47,10 @@ export function createApp(catalog: CatalogEntry[] = docsetsData as CatalogEntry[
         });
 }
 
+const app = createApp();
+
 if (import.meta.main) {
-    createApp().listen(3000);
+    app.listen(3000);
 }
 
-export default createApp();
+export default app;

@@ -7,6 +7,7 @@
         "start": "bun run src/index.ts",
         "test": "bun test",
         "process-feeds": "bun run scripts/process-dash-feeds.ts",
+        "typecheck": "tsc --noEmit",
         "lint": "biome lint .",
         "lint:fix": "biome lint --write .",
         "format": "biome format .",
@@ -21,6 +22,7 @@
     "devDependencies": {
         "@biomejs/biome": "^2.4.7",
         "@types/pngjs": "^6.0.5",
-        "bun-types": "^1.3.10"
+        "bun-types": "^1.3.10",
+        "typescript": "^5.9.3"
     }
 }

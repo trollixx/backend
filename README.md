@@ -22,15 +22,14 @@ bun run dev   # hot-reload dev server on :3000
 bun test      # run tests
 ```
 
-## Feed processing
+## Build
+
+Generates `public/_api/v1/docsets.json`, `catalog.json`, and `releases.json`:
 
 ```bash
-bun run process-feeds \
-  --manifest=docsets.json \
-  --blacklist=blacklist.json \
-  --resource-dir=<Dash-X-Platform-Resources> \
-  <feeds-dir> \
-  public/_api/v1/docsets.json
+git clone https://github.com/Kapeli/feeds.git build/feeds
+git clone https://github.com/Kapeli/Dash-X-Platform-Resources.git build/resources
+bun run build
 ```
 
 ## Deploy

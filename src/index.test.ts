@@ -20,6 +20,11 @@ const app = createApp(
         },
         { name: "Vim", sourceId: "com.kapeli.cheatsheet", versions: ["4.0"] },
     ],
+    // Releases
+    [
+        { version: "0.7.2", date: "2024-09-08T11:33:39Z" },
+        { version: "0.7.1", date: "2024-05-27T17:46:45Z" },
+    ],
 );
 
 describe("GET /v1/releases", () => {

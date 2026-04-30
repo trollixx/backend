@@ -1,0 +1,28 @@
+TOKEN events_append APPEND
+
+SCHEMA >
+    `ts` DateTime64(3) `json:$.ts`,
+    `event` LowCardinality(String) `json:$.event`,
+    `source_id` LowCardinality(String) `json:$.source_id` DEFAULT '',
+    `source_id_raw` LowCardinality(String) `json:$.source_id_raw` DEFAULT '',
+    `docset_id` String `json:$.docset_id` DEFAULT '',
+    `version` String `json:$.version` DEFAULT '',
+    `link_id` String `json:$.link_id` DEFAULT '',
+    `mirror` LowCardinality(String) `json:$.mirror` DEFAULT '',
+    `country` LowCardinality(String) `json:$.country` DEFAULT '',
+    `region` LowCardinality(String) `json:$.region` DEFAULT '',
+    `app_version` LowCardinality(String) `json:$.app_version` DEFAULT '',
+    `qt_version` LowCardinality(String) `json:$.qt_version` DEFAULT '',
+    `install_id` String `json:$.install_id` DEFAULT '',
+    `os_name` LowCardinality(String) `json:$.os_name` DEFAULT '',
+    `os_arch` LowCardinality(String) `json:$.os_arch` DEFAULT '',
+    `os_product_type` LowCardinality(String) `json:$.os_product_type` DEFAULT '',
+    `os_product_version` String `json:$.os_product_version` DEFAULT '',
+    `kernel_type` LowCardinality(String) `json:$.kernel_type` DEFAULT '',
+    `kernel_version` String `json:$.kernel_version` DEFAULT '',
+    `locale` LowCardinality(String) `json:$.locale` DEFAULT '',
+    `ua_raw` String `json:$.ua_raw` DEFAULT ''
+
+ENGINE "MergeTree"
+ENGINE_PARTITION_KEY "toYYYYMM(ts)"
+ENGINE_SORTING_KEY "event, ts"

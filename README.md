@@ -35,3 +35,10 @@ bun run build
 ## Deploy
 
 Deployment to Vercel is handled automatically by the GitHub Actions workflow on every push to `main` and on a daily schedule.
+
+## Analytics
+
+Request events are sent to a Tinybird workspace when `TINYBIRD_TOKEN` is set in
+the Vercel environment. Without the token, `track()` is a no-op (so local dev and
+tests never hit the network). Schema, queries, and deploy instructions live in
+[`tinybird/`](./tinybird/README.md).

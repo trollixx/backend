@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 
 import { getMirror } from "./geo";
 import { linkMap } from "./links";
+import { track } from "./track";
 import docsets from "../docsets.json";
 type LegacyEntry = { name: string; versions: string[] };
 type FullEntry = {
@@ -79,19 +80,22 @@ export function createApp(
     return (
         new Elysia()
             .get("/", ({ redirect }) => redirect("https://zealdocs.org", 302))
-            .get("/v1/releases", () =>
-                Response.json(releases, { headers: { "Cache-Control": "public, s-maxage=3600" } }),
-            )
-            .get("/v1/docsets", () =>
-                Response.json(legacyCatalog, { headers: { "Cache-Control": "public, s-maxage=3600" } }),
-            )
+            .get("/v1/releases", ({ request }) => {
+                track(request, { event: "releases" });
+                return Response.json(releases, { headers: { "Cache-Control": "public, s-maxage=3600" } });
+            })
+            .get("/v1/docsets", ({ request }) => {
+                track(request, { event: "catalog" });
+                return Response.json(legacyCatalog, { headers: { "Cache-Control": "public, s-maxage=3600" } });
+            })
             // .get("/v1/catalog", () => Response.json(fullCatalog, { headers: { "Cache-Control": "public, s-maxage=3600" } }))
-            .get("/l/:linkId", ({ params: { linkId }, redirect, set }) => {
+            .get("/l/:linkId", ({ params: { linkId }, request, redirect, set }) => {
                 const url = linkMap[linkId];
                 if (!url) {
                     set.status = 404;
                     return "Not found";
                 }
+                track(request, { event: "link", link_id: linkId });
                 return redirect(url, 302);
             })
             .get("/d/:sourceId/:docsetId/:version?", ({ params, request, redirect, set }) => {
@@ -106,6 +110,16 @@ export function createApp(
                 const { latitude, longitude } = geolocation(request);
                 const mirror = getMirror(latitude, longitude);
 
+                const trackDownload = (source: string, docset: string) =>
+                    track(request, {
+                        event: "download",
+                        source_id: source,
+                        source_id_raw: sourceId,
+                        docset_id: docset,
+                        version,
+                        mirror,
+                    });
+
                 if (sourceId === "com.kapeli") {
                     if (docsetId.endsWith("_Cheatsheet")) {
                         const key = docsetId.slice(0, -"_Cheatsheet".length);
@@ -113,6 +127,7 @@ export function createApp(
                             set.status = 404;
                             return "Not found";
                         }
+                        trackDownload("com.kapeli.cheatsheet", key);
                         return redirect(`https://${mirror}/feeds/zzz/cheatsheets/${key}.tgz`, 302);
                     }
 
@@ -127,6 +142,7 @@ export function createApp(
                             version !== "latest" && entry.specificVersions[version]
                                 ? entry.specificVersions[version]
                                 : entry.archive;
+                        trackDownload("com.kapeli.contrib", key);
                         return redirect(`https://${mirror}/feeds/zzz/user_contributed/build/${key}/${archive}`, 302);
                     }
 
@@ -136,6 +152,7 @@ export function createApp(
                         set.status = 404;
                         return "Not found";
                     }
+                    trackDownload("com.kapeli.dash", docsetId);
                     return redirect(url, 302);
                 }
 
@@ -145,6 +162,7 @@ export function createApp(
                         set.status = 404;
                         return "Not found";
                     }
+                    trackDownload("com.kapeli.dash", docsetId);
                     return redirect(url, 302);
                 }
 
@@ -158,6 +176,7 @@ export function createApp(
                         version !== "latest" && entry.specificVersions[version]
                             ? entry.specificVersions[version]
                             : entry.archive;
+                    trackDownload("com.kapeli.contrib", docsetId);
                     return redirect(`https://${mirror}/feeds/zzz/user_contributed/build/${docsetId}/${archive}`, 302);
                 }
 
@@ -166,6 +185,7 @@ export function createApp(
                         set.status = 404;
                         return "Not found";
                     }
+                    trackDownload("com.kapeli.cheatsheet", docsetId);
                     return redirect(`https://${mirror}/feeds/zzz/cheatsheets/${docsetId}.tgz`, 302);
                 }
 

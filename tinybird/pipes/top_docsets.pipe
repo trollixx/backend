@@ -1,0 +1,18 @@
+DESCRIPTION >
+    Top docsets by download count over a window.
+
+NODE top_docsets_node
+SQL >
+    %
+    SELECT
+        source_id,
+        docset_id,
+        count() AS downloads,
+        uniq(install_id) AS unique_installs
+    FROM events
+    WHERE event = 'download'
+      AND ts >= now() - INTERVAL {{ Int32(days, 7) }} DAY
+      AND docset_id != ''
+    GROUP BY source_id, docset_id
+    ORDER BY downloads DESC
+    LIMIT {{ Int32(limit, 50) }}

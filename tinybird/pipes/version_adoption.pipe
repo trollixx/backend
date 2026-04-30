@@ -1,0 +1,16 @@
+DESCRIPTION >
+    Zeal app version distribution over a window (unique installs per version).
+
+NODE version_adoption_node
+SQL >
+    %
+    SELECT
+        app_version,
+        os_name,
+        os_arch,
+        uniq(install_id) AS unique_installs
+    FROM events
+    WHERE ts >= now() - INTERVAL {{ Int32(days, 30) }} DAY
+      AND app_version != ''
+    GROUP BY app_version, os_name, os_arch
+    ORDER BY unique_installs DESC

@@ -1,0 +1,15 @@
+DESCRIPTION >
+    Audience breakdown by country over a window.
+
+NODE country_breakdown_node
+SQL >
+    %
+    SELECT
+        country,
+        count() AS hits,
+        uniq(install_id) AS unique_installs
+    FROM events
+    WHERE ts >= now() - INTERVAL {{ Int32(days, 30) }} DAY
+      AND country != ''
+    GROUP BY country
+    ORDER BY unique_installs DESC

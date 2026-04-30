@@ -1,6 +1,6 @@
 import { geolocation, waitUntil } from "@vercel/functions";
 
-const TINYBIRD_URL = process.env.TINYBIRD_URL ?? "https://api.tinybird.co/v0/events";
+const TINYBIRD_URL = process.env.TINYBIRD_URL ?? "https://api.us-east.aws.tinybird.co/v0/events";
 const TINYBIRD_TOKEN = process.env.TINYBIRD_TOKEN;
 const TINYBIRD_DATASOURCE = process.env.TINYBIRD_DATASOURCE ?? "events";
 const TINYBIRD_TIMEOUT_MS = 1000;

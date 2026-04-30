@@ -50,5 +50,6 @@ and rotates it via deployments — copy its value from the workspace UI's
 
 ## Optional runtime env vars (defaults)
 
-- `TINYBIRD_URL` — `https://api.tinybird.co/v0/events`
+- `TINYBIRD_URL` — `https://api.us-east.aws.tinybird.co/v0/events` (override
+  when the workspace is hosted in a different region)
 - `TINYBIRD_DATASOURCE` — `events`

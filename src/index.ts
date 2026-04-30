@@ -80,6 +80,12 @@ export function createApp(
     return (
         new Elysia()
             .get("/", ({ redirect }) => redirect("https://zealdocs.org", 302))
+            .get("/robots.txt", () =>
+                new Response("User-agent: *\nDisallow: /\n", {
+                    headers: { "content-type": "text/plain", "cache-control": "public, max-age=86400" },
+                }),
+            )
+            .get("/favicon.ico", () => new Response(null, { status: 204 }))
             .get("/v1/releases", ({ request }) => {
                 track(request, { event: "releases" });
                 return Response.json(releases, { headers: { "Cache-Control": "public, s-maxage=3600" } });

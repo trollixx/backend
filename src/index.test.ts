@@ -59,6 +59,22 @@ describe("GET /", () => {
     });
 });
 
+describe("GET /robots.txt", () => {
+    it("returns Disallow-all body", async () => {
+        const res = await app.handle(new Request("http://localhost/robots.txt"));
+        expect(res.status).toBe(200);
+        expect(res.headers.get("content-type")).toContain("text/plain");
+        expect(await res.text()).toBe("User-agent: *\nDisallow: /\n");
+    });
+});
+
+describe("GET /favicon.ico", () => {
+    it("returns 204 No Content", async () => {
+        const res = await app.handle(new Request("http://localhost/favicon.ico"));
+        expect(res.status).toBe(204);
+    });
+});
+
 describe("GET /l/:linkId", () => {
     it("redirects to GitHub", async () => {
         const res = await app.handle(new Request("http://localhost/l/github"));

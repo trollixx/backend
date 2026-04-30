@@ -88,13 +88,13 @@ export function createApp(
             .get("/favicon.ico", () => new Response(null, { status: 204 }))
             .get("/v1/releases", ({ request }) => {
                 track(request, { event: "releases" });
-                return Response.json(releases, { headers: { "Cache-Control": "public, s-maxage=3600" } });
+                return Response.json(releases, { headers: { "Cache-Control": "public, s-maxage=21600" } });
             })
             .get("/v1/docsets", ({ request }) => {
                 track(request, { event: "catalog" });
-                return Response.json(legacyCatalog, { headers: { "Cache-Control": "public, s-maxage=3600" } });
+                return Response.json(legacyCatalog, { headers: { "Cache-Control": "public, s-maxage=21600" } });
             })
-            // .get("/v1/catalog", () => Response.json(fullCatalog, { headers: { "Cache-Control": "public, s-maxage=3600" } }))
+            // .get("/v1/catalog", () => Response.json(fullCatalog, { headers: { "Cache-Control": "public, s-maxage=21600" } }))
             .get("/l/:linkId", ({ params: { linkId }, request, redirect, set }) => {
                 const url = linkMap[linkId];
                 if (!url) {

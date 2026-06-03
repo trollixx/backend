@@ -41,4 +41,7 @@ jobs:
           bun install --global vercel
           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          # Emit generated data as static files; the Elysia preset only bundles public/ into the function.
+          mkdir -p .vercel/output/static
+          cp -r public/. .vercel/output/static/
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

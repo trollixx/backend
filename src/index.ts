@@ -90,10 +90,15 @@ export function createApp(
                 track(request, { event: "releases" });
                 return Response.json(releases, { headers: { "Cache-Control": "public, s-maxage=21600" } });
             })
-            .get("/v1/docsets", ({ request }) => {
+            // Uncached tracked redirect; the payload is edge-cached as a static asset.
+            .get("/v1/docsets", ({ request, redirect }) => {
                 track(request, { event: "catalog" });
-                return Response.json(legacyCatalog, { headers: { "Cache-Control": "public, s-maxage=21600" } });
+                return redirect("/_api/v1/docsets.json", 302);
             })
+            // Dev/test fallback; on Vercel the static file shadows this route.
+            .get("/_api/v1/docsets.json", () =>
+                Response.json(legacyCatalog, { headers: { "Cache-Control": "public, s-maxage=21600" } }),
+            )
             // .get("/v1/catalog", () => Response.json(fullCatalog, { headers: { "Cache-Control": "public, s-maxage=21600" } }))
             .get("/l/:linkId", ({ params: { linkId }, request, redirect, set }) => {
                 const url = linkMap[linkId];

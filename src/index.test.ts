@@ -36,8 +36,21 @@ describe("GET /v1/releases", () => {
 });
 
 describe("GET /v1/docsets", () => {
-    it("returns 200 JSON", async () => {
+    it("redirects to the static catalog", async () => {
         const res = await app.handle(new Request("http://localhost/v1/docsets"));
+        expect(res.status).toBe(302);
+        expect(res.headers.get("location")).toBe("/_api/v1/docsets.json");
+    });
+
+    it("does not cache the redirect", async () => {
+        const res = await app.handle(new Request("http://localhost/v1/docsets"));
+        expect(res.headers.get("cache-control")).toBeNull();
+    });
+});
+
+describe("GET /_api/v1/docsets.json (function fallback)", () => {
+    it("returns 200 JSON", async () => {
+        const res = await app.handle(new Request("http://localhost/_api/v1/docsets.json"));
         expect(res.status).toBe(200);
         expect(res.headers.get("content-type")).toContain("application/json");
     });

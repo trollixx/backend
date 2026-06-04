@@ -1,4 +1,5 @@
 export const linkMap: Record<string, string> = {
+    conduct: "https://github.com/zealdocs/.github/blob/main/.github/CODE_OF_CONDUCT.md",
     contact: "https://zealdocs.org/contact.html",
     download: "https://zealdocs.org/download.html",
 

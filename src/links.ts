@@ -5,7 +5,9 @@ export const linkMap: Record<string, string> = {
     discord: "https://discord.com/invite/KKX6HNH",
     github: "https://github.com/zealdocs/zeal",
     gitter: "https://gitter.im/zealdocs/zeal",
-    twitter: "https://twitter.com/zealdocs",
+    telegram: "https://t.me/zealdocsapp",
+    twitter: "https://x.com/zealdocs",
+    x: "https://x.com/zealdocs",
 
     "report-bug": "https://github.com/zealdocs/zeal/issues",
 

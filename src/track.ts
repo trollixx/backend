@@ -48,7 +48,7 @@ export function buildEvent(request: Request, base: EventBase): Record<string, un
     try {
         const geo = geolocation(request);
         country = geo.country;
-        region = geo.region;
+        region = geo.countryRegion;
     } catch {
         // Not on Vercel — geolocation unavailable.
     }

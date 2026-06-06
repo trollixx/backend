@@ -55,6 +55,7 @@ export function buildEvent(request: Request, base: EventBase): Record<string, un
     return {
         ts: new Date().toISOString(),
         event: base.event,
+        method: request.method,
         source_id: base.source_id,
         source_id_raw: base.source_id_raw,
         docset_id: base.docset_id,

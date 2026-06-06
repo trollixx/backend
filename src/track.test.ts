@@ -69,7 +69,14 @@ describe("buildEvent", () => {
         expect(ev.kernel_type).toBe("linux");
         expect(ev.locale).toBe("en_US");
         expect(ev.ua_raw).toBe("Zeal/0.7.2");
+        expect(ev.method).toBe("GET");
         expect(typeof ev.ts).toBe("string");
+    });
+
+    it("records the request method", () => {
+        const req = new Request("http://localhost/d/com.kapeli/Akka/latest", { method: "HEAD" });
+        const ev = buildEvent(req, { event: "download" });
+        expect(ev.method).toBe("HEAD");
     });
 
     it("leaves Zeal-only fields undefined when header missing (e.g. curl)", () => {

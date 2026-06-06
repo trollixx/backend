@@ -3,6 +3,7 @@ TOKEN events_append APPEND
 SCHEMA >
     `ts` DateTime64(3) `json:$.ts`,
     `event` LowCardinality(String) `json:$.event`,
+    `method` LowCardinality(String) `json:$.method` DEFAULT '',
     `source_id` LowCardinality(String) `json:$.source_id` DEFAULT '',
     `source_id_raw` LowCardinality(String) `json:$.source_id_raw` DEFAULT '',
     `docset_id` String `json:$.docset_id` DEFAULT '',
@@ -27,8 +28,9 @@ ENGINE "MergeTree"
 ENGINE_PARTITION_KEY "toYYYYMM(ts)"
 ENGINE_SORTING_KEY "event, ts"
 
-# One-time cleanup: rows written before the src/track.ts fix stored the Vercel
-# POP (e.g. "fra1") in `region` instead of the ISO-3166-2 region code. POPs are
-# lowercase, real codes uppercase, so blank anything non-uppercase.
+# Backfill `method` as empty for pre-existing rows. Also a one-time cleanup:
+# rows written before the src/track.ts fix stored the Vercel POP (e.g. "fra1")
+# in `region` instead of the ISO-3166-2 region code. POPs are lowercase, real
+# codes uppercase, so blank anything non-uppercase. Remove after deployment.
 FORWARD_QUERY >
-    SELECT * EXCEPT 'region', if(region = upperUTF8(region), region, '') AS region
+    SELECT ts, event, defaultValueOfTypeName('LowCardinality(String)') AS method, source_id, source_id_raw, docset_id, version, link_id, mirror, country, CAST(if(region = upperUTF8(region), region, ''), 'LowCardinality(String)') AS region, app_version, qt_version, install_id, os_name, os_arch, os_product_type, os_product_version, kernel_type, kernel_version, locale, ua_raw

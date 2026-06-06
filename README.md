@@ -4,6 +4,12 @@ Bun/Elysia application serving `api.zealdocs.org` and `go.zealdocs.org`.
 
 Docsets are updated daily using GitHub Actions.
 
+> [!WARNING]
+> These endpoints exist to serve the Zeal application. There is no SLA, no
+> stability guarantee, and no deprecation policy. Paths, response shapes, and
+> behavior may change or disappear at any time without notice. If you build
+> something on top of this API, you accept that it can break under you.
+
 ## Routes
 
 | Host | Path | Description |

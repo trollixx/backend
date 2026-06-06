@@ -26,3 +26,9 @@ SCHEMA >
 ENGINE "MergeTree"
 ENGINE_PARTITION_KEY "toYYYYMM(ts)"
 ENGINE_SORTING_KEY "event, ts"
+
+# One-time cleanup: rows written before the src/track.ts fix stored the Vercel
+# POP (e.g. "fra1") in `region` instead of the ISO-3166-2 region code. POPs are
+# lowercase, real codes uppercase, so blank anything non-uppercase.
+FORWARD_QUERY >
+    SELECT * EXCEPT 'region', if(region = upperUTF8(region), region, '') AS region

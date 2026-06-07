@@ -118,7 +118,13 @@ export function createApp(
                     return "Invalid version";
                 }
 
-                const { latitude, longitude } = geolocation(request);
+                let latitude: string | undefined;
+                let longitude: string | undefined;
+                try {
+                    ({ latitude, longitude } = geolocation(request));
+                } catch {
+                    // Not on Vercel, or geolocation unavailable — fall back to default mirror.
+                }
                 const mirror = getMirror(latitude, longitude);
 
                 const trackDownload = (source: string, docset: string) =>

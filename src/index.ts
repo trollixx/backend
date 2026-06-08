@@ -195,7 +195,7 @@ export function createApp(
                             ? entry.specificVersions[version]
                             : entry.archive;
                     trackDownload("com.kapeli.contrib", docsetId);
-                    return redirect(`https://${mirror}/feeds/zzz/user_contributed/build/${docsetId}/${archive}`, 302);
+                    return redirect(contribArchiveUrl(docsetId, archive, mirror), 302);
                 }
 
                 if (sourceId === "com.kapeli.cheatsheet") {
@@ -204,7 +204,7 @@ export function createApp(
                         return "Not found";
                     }
                     trackDownload("com.kapeli.cheatsheet", docsetId);
-                    return redirect(`https://${mirror}/feeds/zzz/cheatsheets/${docsetId}.tgz`, 302);
+                    return redirect(cheatsheetArchiveUrl(docsetId, mirror), 302);
                 }
 
                 set.status = 404;

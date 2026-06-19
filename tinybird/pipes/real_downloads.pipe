@@ -1,0 +1,36 @@
+DESCRIPTION >
+    Download events with scrapers removed, for human-usage views.
+    Scrapers are install_ids that pull an implausible share of the catalog
+    (full-catalog sweeps) or appear in several countries at once (a single
+    GUID replayed through a proxy pool). Empty-install_id traffic collapses
+    into one full-coverage group and is dropped by the coverage rule.
+    Tune the thresholds via params; defaults match the 30-day analysis.
+
+NODE scraper_installs
+SQL >
+    %
+    SELECT install_id
+    FROM events
+    WHERE event = 'download'
+      AND ts >= now() - INTERVAL {{ Int32(days, 30) }} DAY
+    GROUP BY install_id
+    HAVING uniq(docset_id) >= {{ Int32(coverage, 100) }}
+        OR uniq(country) >= {{ Int32(countries, 3) }}
+
+NODE real_downloads_node
+SQL >
+    %
+    SELECT
+        ts,
+        source_id,
+        docset_id,
+        version,
+        mirror,
+        country,
+        region,
+        app_version,
+        install_id
+    FROM events
+    WHERE event = 'download'
+      AND ts >= now() - INTERVAL {{ Int32(days, 30) }} DAY
+      AND install_id NOT IN (SELECT install_id FROM scraper_installs)

@@ -30,6 +30,22 @@ Analytics here are designed to be useful without identifying anyone.
 - `pipes/top_docsets.pipe` — top docsets by download count
 - `pipes/country_breakdown.pipe` — audience by country
 - `pipes/version_adoption.pipe` — Zeal app version distribution
+- `pipes/real_downloads.pipe` — downloads with scrapers removed, base for
+  human-usage views (tune `coverage`/`countries`/`days` params)
+
+## Querying
+
+No Docker needed when using `--cloud`. Run ad-hoc SQL against the cloud
+workspace:
+
+```bash
+cd tinybird
+tb --cloud sql "SELECT count() FROM events WHERE event = 'download'"
+```
+
+To validate pipe edits without deploying, use `tb --cloud deploy --check`
+(see Deploy). It catches schema and pipe-file errors against the live
+workspace and changes nothing.
 
 ## Deploy
 
